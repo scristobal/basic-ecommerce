@@ -1,14 +1,14 @@
-import { Chart } from './chart';
+import { Cart } from './cart';
 import { Item } from './items';
 import { expect } from '@jest/globals';
 
 describe('Chart', () => {
-    let chart: Chart;
+    let chart: Cart;
     let item: Item;
     let otherItem: Item;
 
     beforeEach(() => {
-        chart = new Chart();
+        chart = new Cart();
         item = { code: 'test1', name: 'test1', price: 100n };
         otherItem = { code: 'test2', name: 'test2', price: 200n };
     });

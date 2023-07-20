@@ -14,7 +14,7 @@ type ItemQuantity = { item: Item; quantity: number };
  * chart.amountOf(otherItem); // 0
  *
  */
-export class Chart {
+export class Cart {
     private itemQuantities: ItemQuantity[] = [];
 
     /**

@@ -1,28 +1,28 @@
-import { Chart } from './chart';
+import { Cart } from './cart';
 import { Item } from './items';
 
 /**
  * @description
  * Common offer interface
  *  - `name` is the name of the offer as it will be displayed in the store
- *  - `discount` is a function that receives a `Chart` and returns the discounted amount, it does not mutate the `chart`
+ *  - `discount` is a function that receives a `cart` and returns the discounted amount, it does not mutate the `cart`
  *
  */
 export interface Offer {
     readonly name: string;
-    readonly discount: (c: Chart) => bigint;
+    readonly discount: (c: Cart) => bigint;
 }
 
 /**
  * @description
- * An offer that applies a % discount to the total amount of the item in the chart when the quantity is greater than or equal to the minimum quantity.
+ * An offer that applies a % discount to the total amount of the item in the cart when the quantity is greater than or equal to the minimum quantity.
  * - `name` is the name of the offer as it will be displayed in the store
  * - `item` is the item that will be discounted
- * - `min_quantity` is the minimum quantity of `item` that must be in the chart to apply the discount
+ * - `min_quantity` is the minimum quantity of `item` that must be in the cart to apply the discount
  * - `percentage` is the percentage in % of discount to apply
  * @example
  * const offer = new BulkOffer(item, 3, 10);
- * const discount = offer.discount(chart);
+ * const discount = offer.discount(cart);
  *
  */
 export class BulkOffer implements Offer {
@@ -32,11 +32,11 @@ export class BulkOffer implements Offer {
      * @description
      * Creates a new BulkOffer
      * - `item` is the item that will be discounted
-     * - `min_quantity` is the minimum quantity of `item` that must be in the chart to apply the discount
+     * - `min_quantity` is the minimum quantity of `item` that must be in the cart to apply the discount
      * - `percentage` is the percentage in % of discount to apply
      * @example
      * const offer = new BulkOffer(item, 3, 10);
-     * const discount = offer.discount(chart);
+     * const discount = offer.discount(cart);
      *
      */
     constructor(
@@ -49,17 +49,17 @@ export class BulkOffer implements Offer {
 
     /**
      * @description
-     * Calculates and returns the amount of discount to be applied based on the quantity of the item in the chart.
-     * If the quantity of the item in the chart is greater than or equal to the minimum quantity, the discount is applied.
+     * Calculates and returns the amount of discount to be applied based on the quantity of the item in the cart.
+     * If the quantity of the item in the cart is greater than or equal to the minimum quantity, the discount is applied.
      * Otherwise, no discount is applied.
-     * It does not mutate the `chart`.
-     *  - `chart` is the chart to calculate the discount from
+     * It does not mutate the `cart`.
+     *  - `cart` is the cart to calculate the discount from
      * @example
      * const offer = new BulkOffer(item, 3, 10);
-     * const discount = offer.discount(chart);
+     * const discount = offer.discount(cart);
      */
-    discount(chart: Chart): bigint {
-        const numberOfDiscountedItems = chart.amountOf(this.item);
+    discount(cart: Cart): bigint {
+        const numberOfDiscountedItems = cart.amountOf(this.item);
 
         if (numberOfDiscountedItems >= this.min_quantity) {
             return (this.item.price * BigInt(numberOfDiscountedItems) * BigInt(this.percentage)) / 100n;
@@ -71,14 +71,14 @@ export class BulkOffer implements Offer {
 
 /**
  * @description
- * An offer that applies a discount to the total amount of the item in the chart when the quantity is greater than or equal to the minimum quantity.
+ * An offer that applies a discount to the total amount of the item in the cart when the quantity is greater than or equal to the minimum quantity.
  * - `name` is the name of the offer as it will be displayed in the store
  * - `item` is the item that will be discounted
- * - `buy` is the number of items that must be in the chart to apply the discount
+ * - `buy` is the number of items that must be in the cart to apply the discount
  * - `getFree` is the number of items that will be discounted
  * @example
  * const offer = new GetFreeOffer(item, 3, 1);
- * const discount = offer.discount(chart);
+ * const discount = offer.discount(cart);
  */
 export class BuyXGetYFreeOffer implements Offer {
     name: string;
@@ -87,11 +87,11 @@ export class BuyXGetYFreeOffer implements Offer {
      * @description
      * Creates a new BuyXGetYFreeOffer
      * - `item` is the item that will be discounted
-     * - `buy` is the number of items that must be in the chart to apply the discount
+     * - `buy` is the number of items that must be in the cart to apply the discount
      * - `getFree` is the number of items that will be discounted
      * @example
      * const offer = new GetFreeOffer(item, 3, 1);
-     * const discount = offer.discount(chart);
+     * const discount = offer.discount(cart);
      */
     constructor(
         private item: Item,
@@ -103,17 +103,17 @@ export class BuyXGetYFreeOffer implements Offer {
 
     /**
      * @description
-     * Calculates and returns the amount of discount to be applied based on the quantity of the item in the chart.
-     * If the quantity of the item in the chart is greater than or equal to the minimum quantity, the discount is applied.
+     * Calculates and returns the amount of discount to be applied based on the quantity of the item in the cart.
+     * If the quantity of the item in the cart is greater than or equal to the minimum quantity, the discount is applied.
      * Otherwise, no discount is applied.
-     * It does not mutate the `chart`.
-     * - `chart` is the chart to calculate the discount from
+     * It does not mutate the `cart`.
+     * - `cart` is the cart to calculate the discount from
      * @example
      * const offer = new GetFreeOffer(item, 3, 1);
-     * const discount = offer.discount(chart);
+     * const discount = offer.discount(cart);
      */
-    discount(chart: Chart): bigint {
-        const numberOfDiscountedItems = chart.amountOf(this.item);
+    discount(cart: Cart): bigint {
+        const numberOfDiscountedItems = cart.amountOf(this.item);
 
         if (numberOfDiscountedItems >= this.buy) {
             return this.item.price * BigInt(Math.floor(numberOfDiscountedItems / this.buy) * this.getFree);

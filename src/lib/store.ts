@@ -1,4 +1,4 @@
-import { Chart } from './chart';
+import { Cart } from './cart';
 import { Offer } from './offers';
 import { Item } from './items';
 
@@ -8,7 +8,7 @@ type Total = { item: Item; amount: bigint };
 /**
  * @description
  * A store is a collection of items and offers.
- * It can calculate the total price of a chart.
+ * It can calculate the total price of a cart.
  */
 export class Store {
     /**
@@ -24,50 +24,50 @@ export class Store {
 
     /**
      * @description
-     * Calculates and returns the amount of discount to be applied based on the quantity of the item in the chart.
-     * If the quantity of the item in the chart is greater than or equal to the minimum quantity, the discount is applied.
+     * Calculates and returns the amount of discount to be applied based on the quantity of the item in the cart.
+     * If the quantity of the item in the cart is greater than or equal to the minimum quantity, the discount is applied.
      * Otherwise, no discount is applied.
-     * It does not mutate the `chart`.
-     * - `chart` is the chart to calculate the discount from
+     * It does not mutate the `cart`.
+     * - `cart` is the cart to calculate the discount from
      * @example
      * const offer = new BulkOffer(item, 3, 10);
-     * const discount = offer.discount(chart);
+     * const discount = offer.discount(cart);
      */
-    checkDiscounts(chart: Chart): Discount[] {
+    checkDiscounts(cart: Cart): Discount[] {
         return this.offers.map((offer) => ({
             offer,
-            amount: offer.discount(chart)
+            amount: offer.discount(cart)
         }));
     }
 
     /**
      * @description
-     * Calculates and returns the total price of each item in the chart.
-     * It does not mutate the `chart`.
-     * - `chart` is the chart to calculate the total price from
+     * Calculates and returns the total price of each item in the cart.
+     * It does not mutate the `cart`.
+     * - `cart` is the cart to calculate the total price from
      * @example
-     * const totals = store.checkTotals(chart);
+     * const totals = store.checkTotals(cart);
      * totals[0].item; // item
      * totals[0].amount; // 100n
      */
-    checkTotals(chart: Chart): Total[] {
-        return chart.items.map((item) => ({
+    checkTotals(cart: Cart): Total[] {
+        return cart.items.map((item) => ({
             item,
-            amount: item.price * BigInt(chart.amountOf(item))
+            amount: item.price * BigInt(cart.amountOf(item))
         }));
     }
 
     /**
      * @description
-     * Calculates and returns the total price of the chart.
-     * It does not mutate the `chart`.
-     * - `chart` is the chart to calculate the total price from
+     * Calculates and returns the total price of the cart.
+     * It does not mutate the `cart`.
+     * - `cart` is the cart to calculate the total price from
      * @example
-     * const total_price = store.checkout(chart);
+     * const total_price = store.checkout(cart);
      */
-    checkout(chart: Chart): bigint {
-        const discount = this.checkDiscounts(chart).reduce((acc, { amount }) => acc + amount, 0n);
-        const total = this.checkTotals(chart).reduce((acc, { amount }) => acc + amount, 0n);
+    checkout(cart: Cart): bigint {
+        const discount = this.checkDiscounts(cart).reduce((acc, { amount }) => acc + amount, 0n);
+        const total = this.checkTotals(cart).reduce((acc, { amount }) => acc + amount, 0n);
 
         return total - discount;
     }

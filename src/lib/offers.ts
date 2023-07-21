@@ -23,7 +23,6 @@ export interface Offer {
  * @example
  * const offer = new BulkOffer(item, 3, 10);
  * const discount = offer.discount(cart);
- *
  */
 export class BulkOffer implements Offer {
     name: string;
@@ -37,7 +36,6 @@ export class BulkOffer implements Offer {
      * @example
      * const offer = new BulkOffer(item, 3, 10);
      * const discount = offer.discount(cart);
-     *
      */
     constructor(
         private item: Item,

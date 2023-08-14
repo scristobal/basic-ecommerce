@@ -35,8 +35,4 @@ export const actions = {
 
 		throw redirect(302, '/');
 	}
-
-	// set: async function({cookies, request}) { },
-
-	// checkout: async function({cookies, request}) { }
 };

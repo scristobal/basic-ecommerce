@@ -1,19 +1,19 @@
 <script lang="ts">
-	import type { Product } from '$lib/types';
+	import type { Cart, Discount, Product } from '$lib/types';
 
 	export let products: Product[] = [];
-	export let cart: { [code: string]: number } = {};
-	export let discounts: { name: string; amount: bigint }[] = [];
+	export let cart: Cart = {};
+	export let discounts: Discount[] = [];
 	export let checkout: boolean = false;
 
 	$: totalItems = Object.values(cart).reduce((acc, curr) => acc + curr, 0);
 
 	$: totalCost = products.reduce((acc, curr) => {
 		const quantity = cart[curr.code] ?? 0;
-		return acc + BigInt(quantity) * curr.price;
-	}, 0n);
+		return acc + quantity * curr.price;
+	}, 0);
 
-	$: totalCheckout = totalCost - discounts.reduce((acc, curr) => acc + curr.amount, 0n);
+	$: totalCheckout = totalCost - discounts.reduce((acc, curr) => acc + curr.amount, 0);
 </script>
 
 <div class="flex h-full flex-col justify-between">

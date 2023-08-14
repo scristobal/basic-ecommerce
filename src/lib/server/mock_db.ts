@@ -8,7 +8,7 @@ export const db = {
 			{
 				code: 'TSHIRT',
 				name: 't-shirt',
-				price: BigInt('2000'),
+				price: 2000,
 				image: '/TSHIRT.jpg',
 				thumb: '/TSHIRT_thumb.png',
 				description:
@@ -17,7 +17,7 @@ export const db = {
 			{
 				code: 'MUG',
 				name: 'coffee mug',
-				price: BigInt('750'),
+				price: 750,
 				image: '/MUG.jpg',
 				thumb: '/MUG_thumb.png',
 				description:
@@ -26,7 +26,7 @@ export const db = {
 			{
 				code: 'CAP',
 				name: 'cap',
-				price: BigInt('500'),
+				price: 500,
 				image: '/CAP.jpg',
 				thumb: '/CAP_thumb.png',
 				description:

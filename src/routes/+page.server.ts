@@ -1,12 +1,12 @@
 import { db } from '$lib/server/mock_db';
-import type { Discount } from '$lib/types.js';
+import type { Cart, Discount } from '$lib/types.js';
 
 export async function load({ cookies }) {
 	const products = await db.products.getAll();
 
 	const discounts: Discount[] = [];
 
-	const cart = JSON.parse(cookies.get('cart') ?? '{}') as { [code: string]: number };
+	const cart = JSON.parse(cookies.get('cart') ?? '{}') as Cart;
 
 	for (const [code, quantity] of Object.entries(cart)) {
 		const product = await db.products.getByCode(code);
@@ -20,14 +20,14 @@ export async function load({ cookies }) {
 		switch (offer.type) {
 			case 'BulkOffer': {
 				const name = `x${offer.minQuantity} ${product.name} offer`;
-				const amount = quantity >= offer.minQuantity ? (BigInt(product.price) * BigInt(quantity) * BigInt(offer.percentage)) / 100n : BigInt(0);
+				const amount = quantity >= offer.minQuantity ? (product.price * quantity * offer.percentage) / 100 : 0;
 
 				discounts.push({ name, amount });
 				continue;
 			}
 			case 'BuyXGetYFreeOffer': {
 				const name = `${offer.buy}x${offer.getFree} ${product.name} offer`;
-				const amount = quantity >= offer.buy ? BigInt(product.price) * BigInt(Math.floor(quantity / offer.buy) * offer.getFree) : BigInt(0);
+				const amount = quantity >= offer.buy ? product.price * (Math.floor(quantity / offer.buy) * offer.getFree) : 0;
 
 				discounts.push({ name, amount });
 				continue;

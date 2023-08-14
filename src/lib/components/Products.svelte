@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import type { Product } from '$lib/types';
+	import type { Cart, Product } from '$lib/types';
 
 	export let products: Product[];
-	export let cart: { [code: string]: number };
+	export let cart: Cart;
 </script>
 
 <!--  Section title  -->
@@ -69,7 +69,7 @@
 
 		<!-- Product total price -->
 		<div class="grid place-items-center text-center text-base font-normal leading-none text-black">
-			{BigInt(cart[product.code] ?? 0) * product.price}
+			{(cart[product.code] ?? 0) * product.price}
 		</div>
 	</div>
 {/each}

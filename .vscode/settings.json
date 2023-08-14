@@ -1,5 +1,8 @@
 {
 	"typescript.tsdk": "node_modules/typescript/lib",
 	"cSpell.words": ["TSHIRT"],
-	"testing.automaticallyOpenPeekView": "never"
+    "testing.automaticallyOpenPeekView": "never",
+    "yaml.schemas": {
+        "https://json.schemastore.org/github-workflow.json": "file:///Users/samu/repos/samu/invopop-frontend-challenge/.github/workflows/deploy.yml"
+    }
 }

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
+
 	export let data;
 </script>
 
@@ -40,6 +42,10 @@
 				Product code {data.code.toUpperCase()}
 			</div>
 		</div>
-		<button class="h-11 w-full rounded bg-violet-500 text-white">Add to cart</button>
+
+		<form method="POST" action="?/add" use:enhance>
+			<input type="hidden" name="product-code" value={data.code} />
+			<button class="h-11 w-full rounded bg-violet-500 text-white"> Add to cart</button>
+		</form>
 	</div>
 </div>

@@ -1,4 +1,5 @@
 import { db } from '$lib/server/mock_db.js';
+import { redirect } from '@sveltejs/kit';
 
 export async function load({ params }) {
 	const code = params.slug;
@@ -9,3 +10,33 @@ export async function load({ params }) {
 
 	return product;
 }
+
+export const actions = {
+	add: async function ({ cookies, request }) {
+		const data = await request.formData();
+
+		const code = data.get('product-code')?.toString();
+
+		if (code === undefined) throw new Error('Product code not found');
+
+		const cart = JSON.parse(cookies.get('cart') ?? '{}');
+
+		cart[code] = (cart[code] ?? 0) + 1;
+
+		cookies.set('cart', JSON.stringify(cart), {
+			path: '/',
+			maxAge: 60 * 60 * 24 * 30 // 30 days
+		});
+
+		cookies.set('checkout', 'false', {
+			path: '/',
+			maxAge: 60 * 60 * 24 * 30 // 30 days
+		});
+
+		throw redirect(302, '/');
+	}
+
+	// set: async function({cookies, request}) { },
+
+	// checkout: async function({cookies, request}) { }
+};

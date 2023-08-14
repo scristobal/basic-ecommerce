@@ -35,7 +35,9 @@ export async function load({ cookies }) {
 		}
 	}
 
-	return { products, discounts, cart };
+	const checkout: boolean = JSON.parse(cookies.get('checkout') ?? 'false');
+
+	return { products, discounts, cart, checkout };
 }
 
 export const actions = {
@@ -54,6 +56,11 @@ export const actions = {
 			path: '/',
 			maxAge: 60 * 60 * 24 * 30 // 30 days
 		});
+
+		cookies.set('checkout', 'false', {
+			path: '/',
+			maxAge: 60 * 60 * 24 * 30 // 30 days
+		});
 	},
 
 	decrease: async function ({ cookies, request }) {
@@ -69,6 +76,11 @@ export const actions = {
 		else cart[code] -= 1;
 
 		cookies.set('cart', JSON.stringify(cart), {
+			path: '/',
+			maxAge: 60 * 60 * 24 * 30 // 30 days
+		});
+
+		cookies.set('checkout', 'false', {
 			path: '/',
 			maxAge: 60 * 60 * 24 * 30 // 30 days
 		});

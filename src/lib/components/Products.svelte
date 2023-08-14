@@ -34,7 +34,10 @@
 				/>
 			</a>
 			<div class="pointer-events-auto mx-4">
-				<a class="text-lg font-normal leading-normal text-violet-500 transition duration-200 group-hover:text-violet-700 group-hover:drop-shadow" href={`/product/${product.code}`}>
+				<a
+					class="text-lg font-normal capitalize leading-normal text-violet-500 transition duration-200 group-hover:text-violet-700 group-hover:drop-shadow"
+					href={`/product/${product.code}`}
+				>
 					{product.name}
 				</a>
 				<div class=" text-xs font-normal leading-none text-gray-400 transition duration-200 group-hover:text-gray-600 group-hover:drop-shadow">
@@ -47,14 +50,7 @@
 		<div class="flex items-center justify-center">
 			<form method="POST" action="?/decrease" use:enhance>
 				<input type="hidden" name="product-code" value={product.code} />
-				<button
-					class="justify-center text-xl font-normal leading-normal text-violet-500 hover:text-violet-700 group-hover:drop-shadow"
-					on:click={() => {
-						console.log('not implemented');
-					}}
-				>
-					-
-				</button>
+				<button class="justify-center text-xl font-normal leading-normal text-violet-500 hover:text-violet-700 group-hover:drop-shadow"> - </button>
 			</form>
 			<div class="col-span-1 mx-2">
 				<input class="aspect-square h-8 w-8 rounded border text-center" value={cart[product.code] ?? 0} disabled />

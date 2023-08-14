@@ -8,7 +8,7 @@ export const db = {
 			{
 				code: 'TSHIRT',
 				name: 'T-Shirt',
-				price: '20 €',
+				price: BigInt('2000'),
 				image: '/TSHIRT.jpg',
 				thumb: '/TSHIRT_thumb.png',
 				description:
@@ -17,7 +17,7 @@ export const db = {
 			{
 				code: 'MUG',
 				name: 'Coffee Mug',
-				price: '7.5 €',
+				price: BigInt('750'),
 				image: '/MUG.jpg',
 				thumb: '/MUG_thumb.png',
 				description:
@@ -26,7 +26,7 @@ export const db = {
 			{
 				code: 'CAP',
 				name: 'Cap',
-				price: '5 €',
+				price: BigInt('500'),
 				image: '/CAP.jpg',
 				thumb: '/CAP_thumb.png',
 				description:
@@ -55,8 +55,22 @@ export const db = {
 				getFree: 1
 			}
 		],
-		async getAll() {
-			return this._data;
+		async getByProductCode(productCode: string): Promise<
+			| {
+					type: 'BulkOffer';
+					productCode: string;
+					minQuantity: number;
+					percentage: number;
+			  }
+			| {
+					type: 'BuyXGetYFreeOffer';
+					productCode: string;
+					buy: number;
+					getFree: number;
+			  }
+			| undefined
+		> {
+			return this._data.find((offer) => offer.productCode === productCode);
 		}
 	}
 };

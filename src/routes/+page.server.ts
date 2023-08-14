@@ -1,9 +1,80 @@
 import { db } from '$lib/server/mock_db';
+import type { Discount } from '$lib/types.js';
 
-export async function load() {
+export async function load({ cookies }) {
 	const products = await db.products.getAll();
 
-	const offers = await db.offers.getAll();
+	const discounts: Discount[] = [];
 
-	return { products, offers };
+	const cart = JSON.parse(cookies.get('cart') ?? '{}') as { [code: string]: number };
+
+	for (const [code, quantity] of Object.entries(cart)) {
+		const product = await db.products.getByCode(code);
+
+		if (product === undefined) continue;
+
+		const offer = await db.offers.getByProductCode(code);
+
+		if (offer === undefined) continue;
+
+		switch (offer.type) {
+			case 'BulkOffer': {
+				const name = `x${offer.minQuantity} ${product.name} offer`;
+				const amount = quantity >= offer.minQuantity ? (BigInt(product.price) * BigInt(quantity) * BigInt(offer.percentage)) / 100n : BigInt(0);
+
+				discounts.push({ name, amount });
+				continue;
+			}
+			case 'BuyXGetYFreeOffer': {
+				const name = `${offer.buy}x${offer.getFree} ${product.name} offer`;
+				const amount = quantity >= offer.buy ? BigInt(product.price) * BigInt(Math.floor(quantity / offer.buy) * offer.getFree) : BigInt(0);
+
+				discounts.push({ name, amount });
+				continue;
+			}
+		}
+	}
+
+	return { products, discounts, cart };
 }
+
+export const actions = {
+	increase: async function ({ cookies, request }) {
+		const data = await request.formData();
+
+		const code = data.get('product-code')?.toString();
+
+		if (code === undefined) throw new Error('Product code not found');
+
+		const cart = JSON.parse(cookies.get('cart') ?? '{}');
+
+		cart[code] = (cart[code] ?? 0) + 1;
+
+		cookies.set('cart', JSON.stringify(cart), {
+			path: '/',
+			maxAge: 60 * 60 * 24 * 30 // 30 days
+		});
+	},
+
+	decrease: async function ({ cookies, request }) {
+		const data = await request.formData();
+
+		const code = data.get('product-code')?.toString();
+
+		if (code === undefined) throw new Error('Product code not found');
+
+		const cart = JSON.parse(cookies.get('cart') ?? '{}');
+
+		if (cart[code] <= 1) delete cart[code];
+		else cart[code] -= 1;
+
+		cookies.set('cart', JSON.stringify(cart), {
+			path: '/',
+			maxAge: 60 * 60 * 24 * 30 // 30 days
+		});
+	}
+
+	// set: async function({cookies, request}) { },
+
+	// checkout: async function({cookies, request}) { }
+};

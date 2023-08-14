@@ -1,14 +1,18 @@
 <script lang="ts">
-	import type { Shop } from '$lib/core/shop';
-	import { cart, checkout } from '$lib/stores';
+	import type { Product } from '$lib/types';
 
-	export let shop: Shop;
+	export let products: Product[] = [];
+	export let cart: { [code: string]: number } = {};
+	export let discounts: { name: string; amount: bigint }[] = [];
 
-	$: offers = shop.checkDiscounts($cart);
-	$: totalCost = shop.checkTotal($cart);
-	$: totalCheckout = shop.checkout($cart);
+	$: totalItems = Object.values(cart).reduce((acc, curr) => acc + curr, 0);
 
-	$: totalItems = $cart.totalProducts();
+	$: totalCost = products.reduce((acc, curr) => {
+		const quantity = cart[curr.code] ?? 0;
+		return acc + BigInt(quantity) * curr.price;
+	}, 0n);
+
+	$: totalCheckout = totalCost - discounts.reduce((acc, curr) => acc + curr.amount, 0n);
 </script>
 
 <div class="flex h-full flex-col justify-between">
@@ -28,11 +32,11 @@
 		<div class="border-b border-t border-slate-800 border-opacity-20 py-8">
 			<div class="mb-6 text-xs font-normal leading-none text-gray-500">DISCOUNTS</div>
 			<div class="flex flex-col gap-6">
-				{#each offers as { offer, amount }}
+				{#each discounts as discount}
 					<div class=" flex justify-between">
-						<div class="text-sm font-normal leading-none text-slate-800">{offer.name}</div>
+						<div class="text-sm font-normal leading-none text-slate-800">{discount.name}</div>
 						<div class="text-right text-sm font-normal leading-none text-black">
-							{amount}
+							{discount.amount}
 						</div>
 					</div>
 				{/each}
@@ -42,7 +46,7 @@
 	<!-- Flex space -->
 	<div>
 		<!-- total -->
-		{#if $checkout}
+		{#if true}
 			<div class="flex items-center justify-between border-t border-slate-800 border-opacity-20 py-4 align-middle">
 				<div class="text-xl font-normal leading-none text-slate-800">Total</div>
 				<div class="text-right text-xl font-normal leading-normal text-black">
@@ -54,10 +58,7 @@
 		<!-- checkout -->
 		<button
 			class="h-11 w-full rounded bg-violet-500 text-base font-normal leading-none text-white enabled:hover:bg-violet-700 enabled:hover:drop-shadow disabled:cursor-not-allowed disabled:bg-violet-400"
-			disabled={$cart.isEmpty()}
-			on:click={() => {
-				$checkout = true;
-			}}
+			disabled={totalItems === 0}
 		>
 			Checkout
 		</button>

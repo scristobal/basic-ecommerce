@@ -11,7 +11,7 @@ export async function load({ cookies }) {
 	for (const [code, quantity] of Object.entries(cart)) {
 		const product = await db.products.getByCode(code);
 
-		if (product === undefined) continue;
+		if (product === undefined) throw new Error(`Product with code ${code} not found`);
 
 		const offer = await db.offers.getByProductCode(code);
 

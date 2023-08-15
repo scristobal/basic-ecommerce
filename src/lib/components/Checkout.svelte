@@ -30,19 +30,21 @@
 		</div>
 
 		<!-- List of discounts -->
-		<div class="border-b border-t border-slate-800 border-opacity-20 py-8">
-			<div class="mb-6 text-xs font-normal leading-none text-gray-500">DISCOUNTS</div>
-			<div class="flex flex-col gap-6">
-				{#each discounts as discount}
-					<div class=" flex justify-between">
-						<div class="text-sm font-normal leading-none text-slate-800">{discount.name}</div>
-						<div class="text-right text-sm font-normal leading-none text-black">
-							{discount.amount}
+		{#if discounts.length > 0}
+			<div class="border-b border-t border-slate-800 border-opacity-20 py-8">
+				<div class="mb-6 text-xs font-normal leading-none text-gray-500">DISCOUNTS</div>
+				<div class="flex flex-col gap-6">
+					{#each discounts as discount}
+						<div class=" flex justify-between">
+							<div class="text-sm font-normal leading-none text-slate-800">{discount.name}</div>
+							<div class="text-right text-sm font-normal leading-none text-black">
+								{discount.amount}
+							</div>
 						</div>
-					</div>
-				{/each}
+					{/each}
+				</div>
 			</div>
-		</div>
+		{/if}
 	</div>
 	<!-- Flex space -->
 	<div>

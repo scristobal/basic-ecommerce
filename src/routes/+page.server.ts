@@ -72,7 +72,7 @@ export const actions = {
 
 		const cart = JSON.parse(cookies.get('cart') ?? '{}');
 
-		if (cart[code] <= 1) delete cart[code];
+		if ((cart[code] ?? 0) <= 1) delete cart[code];
 		else cart[code] -= 1;
 
 		cookies.set('cart', JSON.stringify(cart), {

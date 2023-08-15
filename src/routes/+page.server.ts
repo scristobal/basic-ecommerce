@@ -13,24 +13,24 @@ export async function load({ cookies }) {
 
 		if (product === undefined) throw new Error(`Product with code ${code} not found`);
 
-		const offer = await db.offers.getByProductCode(code);
+		const offers = await db.offers.getByProductCode(code);
 
-		if (offer === undefined) continue;
+		for (const offer of offers) {
+			switch (offer.type) {
+				case 'BulkOffer': {
+					const name = `x${offer.minQuantity} ${product.name} offer`;
+					const amount = quantity >= offer.minQuantity ? (product.price * quantity * offer.percentage) / 100 : 0;
 
-		switch (offer.type) {
-			case 'BulkOffer': {
-				const name = `x${offer.minQuantity} ${product.name} offer`;
-				const amount = quantity >= offer.minQuantity ? (product.price * quantity * offer.percentage) / 100 : 0;
+					discounts.push({ name, amount, more: Math.max(offer.minQuantity - quantity, 0) });
+					continue;
+				}
+				case 'BuyXGetYFreeOffer': {
+					const name = `${offer.buy}x${offer.getFree} ${product.name} offer`;
+					const amount = quantity >= offer.buy ? product.price * (Math.floor(quantity / offer.buy) * offer.getFree) : 0;
 
-				discounts.push({ name, amount, more: Math.max(offer.minQuantity - quantity, 0) });
-				continue;
-			}
-			case 'BuyXGetYFreeOffer': {
-				const name = `${offer.buy}x${offer.getFree} ${product.name} offer`;
-				const amount = quantity >= offer.buy ? product.price * (Math.floor(quantity / offer.buy) * offer.getFree) : 0;
-
-				discounts.push({ name, amount, more: Math.max(offer.buy - quantity, 0) });
-				continue;
+					discounts.push({ name, amount, more: Math.max(offer.buy - quantity, 0) });
+					continue;
+				}
 			}
 		}
 	}

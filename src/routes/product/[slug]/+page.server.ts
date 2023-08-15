@@ -13,10 +13,10 @@ export async function load({ params, cookies }) {
 
 	const quantity = cart[code] ?? 0;
 
-	const offer = await db.offers.getByProductCode(code);
+	const offers = await db.offers.getByProductCode(code);
 	const discounts = [];
 
-	if (offer !== undefined) {
+	for (const offer of offers) {
 		switch (offer.type) {
 			case 'BulkOffer': {
 				const name = `x${offer.minQuantity} ${product.name} offer`;

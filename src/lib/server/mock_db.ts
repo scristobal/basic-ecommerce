@@ -56,21 +56,22 @@ export const db = {
 			}
 		],
 		async getByProductCode(productCode: string): Promise<
-			| {
-					type: 'BulkOffer';
-					productCode: string;
-					minQuantity: number;
-					percentage: number;
-			  }
-			| {
-					type: 'BuyXGetYFreeOffer';
-					productCode: string;
-					buy: number;
-					getFree: number;
-			  }
-			| undefined
+			| (
+					| {
+							type: 'BulkOffer';
+							productCode: string;
+							minQuantity: number;
+							percentage: number;
+					  }
+					| {
+							type: 'BuyXGetYFreeOffer';
+							productCode: string;
+							buy: number;
+							getFree: number;
+					  }
+			  )[]
 		> {
-			return this._data.find((offer) => offer.productCode === productCode);
+			return this._data.filter((offer) => offer.productCode === productCode);
 		}
 	}
 };

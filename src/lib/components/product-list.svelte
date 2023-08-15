@@ -65,7 +65,7 @@
 
 		<!-- Product unit price  -->
 		<div class="grid place-items-center text-center text-base font-normal leading-none text-black">
-			{product.price}
+			{new Intl.NumberFormat(LOCALES, { style: 'currency', currency: CURRENCY }).format(product.price / 100)}
 		</div>
 
 		<!-- Product total price -->

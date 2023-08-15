@@ -1,5 +1,6 @@
 import { db } from '$lib/server/mock_db';
 import type { Cart, Discount } from '$lib/types.js';
+import { BULK_OFFER, BUYXGETY } from '$lib/constants.js';
 
 export async function load({ cookies }) {
 	const products = await db.products.getAll();
@@ -17,14 +18,14 @@ export async function load({ cookies }) {
 
 		for (const offer of offers) {
 			switch (offer.type) {
-				case 'BulkOffer': {
+				case BULK_OFFER: {
 					const name = `x${offer.minQuantity} ${product.name} offer`;
 					const amount = quantity >= offer.minQuantity ? (product.price * quantity * offer.percentage) / 100 : 0;
 
 					discounts.push({ name, amount, more: Math.max(offer.minQuantity - quantity, 0) });
 					continue;
 				}
-				case 'BuyXGetYFreeOffer': {
+				case BUYXGETY: {
 					const name = `${offer.buy}x${offer.getFree} ${product.name} offer`;
 					const amount = quantity >= offer.buy ? product.price * (Math.floor(quantity / offer.buy) * offer.getFree) : 0;
 

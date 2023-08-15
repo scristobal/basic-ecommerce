@@ -1,3 +1,6 @@
+import type { Offer, Product } from '$lib/types';
+import { BULK_OFFER, BUYXGETY } from '$lib/constants';
+
 /**
  * Mock database
  * This file is used to simulate a database
@@ -32,45 +35,30 @@ export const db = {
 				description:
 					'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sodales semper elit sit amet interdum. Praesent volutpat sed elit vel consectetur. Nulla tempus tincidunt ex, sit amet semper ipsum imperdiet varius. In rutrum aliquam nisl, sagittis faucibus felis bibendum id.'
 			}
-		],
-		async getAll() {
+		] as Product[],
+		async getAll(): Promise<Product[]> {
 			return this._data;
 		},
-		async getByCode(code: string) {
+		async getByCode(code: string): Promise<Product | undefined> {
 			return this._data.find((product) => product.code === code);
 		}
 	},
 	offers: {
 		_data: [
 			{
-				type: 'BulkOffer' as const,
+				type: BULK_OFFER,
 				productCode: 'TSHIRT',
 				minQuantity: 3,
 				percentage: 25
 			},
 			{
-				type: 'BuyXGetYFreeOffer' as const,
+				type: BUYXGETY,
 				productCode: 'CAP',
 				buy: 3,
 				getFree: 1
 			}
-		],
-		async getByProductCode(productCode: string): Promise<
-			| (
-					| {
-							type: 'BulkOffer';
-							productCode: string;
-							minQuantity: number;
-							percentage: number;
-					  }
-					| {
-							type: 'BuyXGetYFreeOffer';
-							productCode: string;
-							buy: number;
-							getFree: number;
-					  }
-			  )[]
-		> {
+		] as Offer[],
+		async getByProductCode(productCode: string): Promise<Offer[]> {
 			return this._data.filter((offer) => offer.productCode === productCode);
 		}
 	}

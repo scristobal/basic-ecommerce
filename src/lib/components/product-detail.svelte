@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import type { Product } from '$lib/types';
+	import type { Discount, Product } from '$lib/types';
 	import { CURRENCY, LOCALES } from '$lib/constants';
 
 	export let product: Product;
+	export let discounts: Discount[] = [];
 </script>
 
 <div class="relative grid h-full grid-cols-10">
@@ -44,10 +45,19 @@
 			</div>
 		</div>
 
-		<!-- Add to cart  -->
-		<form method="POST" action="?/add" use:enhance>
-			<input type="hidden" name="product-code" value={product.code} />
-			<button class="h-11 w-full rounded bg-violet-500 text-white"> Add to cart</button>
-		</form>
+		<div>
+			{#each discounts as discount}
+				{#if discount.more ?? 0 > 0}
+					<div class="my-4 text-sm text-red-600">add {discount.more} more to get a {discount.name}</div>
+				{:else}
+					<div class="my-4 text-sm text-black">{discount.name} applied</div>
+				{/if}
+			{/each}
+			<!-- Add to cart  -->
+			<form method="POST" action="?/add" use:enhance>
+				<input type="hidden" name="product-code" value={product.code} />
+				<button class="h-11 w-full rounded bg-violet-500 text-white"> Add to cart</button>
+			</form>
+		</div>
 	</div>
 </div>

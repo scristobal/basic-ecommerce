@@ -7,6 +7,6 @@
 		font-family: 'Avenir';
 		src: local('Avenir'), local('AvenirLT'), local('Avenir-LT'), url('/fonts/AvenirLTStd-Book.otf');
 		font-weight: normal;
-		font-display: swap;
+		font-display: block;
 	}
 }

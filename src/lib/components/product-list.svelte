@@ -5,6 +5,8 @@
 
 	export let products: Product[];
 	export let cart: Cart;
+
+	$: quantities = products.map((product) => cart[product.code] ?? 0);
 </script>
 
 <!--  Section title  -->
@@ -21,7 +23,7 @@
 </div>
 
 <!-- Products  -->
-{#each products as product}
+{#each products as product, i}
 	<div class="mb-8 grid w-full grid-cols-6">
 		<!-- Product card -->
 		<div class="group pointer-events-none col-span-3 flex items-center align-middle">
@@ -48,20 +50,13 @@
 		</div>
 
 		<!-- Product cart actions -->
-		<div class="flex items-center justify-center">
-			<form method="POST" action="?/decrease" use:enhance>
-				<input type="hidden" name="product-code" value={product.code} />
-				<button class="justify-center text-xl font-normal leading-normal text-violet-500 hover:text-violet-700 group-hover:drop-shadow"> - </button>
-			</form>
-			<div class="col-span-1 mx-2">
-				<input class="aspect-square h-8 w-8 rounded border text-center" value={cart[product.code] ?? 0} disabled />
-			</div>
 
-			<form method="POST" action="?/increase" use:enhance>
-				<input type="hidden" name="product-code" value={product.code} />
-				<button class="text-xl font-normal leading-normal text-violet-500 hover:text-violet-700 group-hover:drop-shadow"> + </button>
-			</form>
-		</div>
+		<form class="flex items-center justify-center" method="POST" use:enhance>
+			<input type="hidden" name="product-code" value={product.code} />
+			<button class="justify-center text-xl font-normal leading-normal text-violet-500 hover:text-violet-700 group-hover:drop-shadow" formaction="?/decrease"> - </button>
+			<input class=" col-span-1 mx-2 aspect-square h-8 w-8 rounded border text-center" disabled bind:value={quantities[i]} />
+			<button class="text-xl font-normal leading-normal text-violet-500 hover:text-violet-700 group-hover:drop-shadow" formaction="?/increase"> + </button>
+		</form>
 
 		<!-- Product unit price  -->
 		<div class="grid place-items-center text-center text-base font-normal leading-none text-black">
@@ -70,7 +65,7 @@
 
 		<!-- Product total price -->
 		<div class="grid place-items-center text-center text-base font-normal leading-none text-black">
-			{new Intl.NumberFormat(LOCALES, { style: 'currency', currency: CURRENCY }).format(((cart[product.code] ?? 0) * product.price) / 100)}
+			{new Intl.NumberFormat(LOCALES, { style: 'currency', currency: CURRENCY }).format(((quantities[i] ?? 0) * product.price) / 100)}
 		</div>
 	</div>
 {/each}

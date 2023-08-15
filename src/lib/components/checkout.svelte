@@ -2,10 +2,10 @@
 	import type { Cart, Discount, Product } from '$lib/types';
 	import { CURRENCY, LOCALES } from '$lib/constants';
 
-	export let products: Product[] = [];
-	export let cart: Cart = {};
-	export let discounts: Discount[] = [];
-	export let checkout: boolean = false;
+	export let products: Product[];
+	export let cart: Cart;
+	export let discounts: Discount[];
+	export let checkout: boolean;
 
 	$: totalItems = Object.values(cart).reduce((acc, curr) => acc + curr, 0);
 

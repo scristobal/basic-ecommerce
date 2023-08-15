@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Products from '$lib/components/product-list.svelte';
-	import Checkout from '$lib/components/checkout.svelte';
+	import Checkout from '$lib/components/Checkout.svelte';
 
 	export let data;
 </script>

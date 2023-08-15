@@ -1,16 +1,12 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { Product } from '$lib/types';
+	import { CURRENCY, LOCALES } from '$lib/constants';
 
 	export let product: Product;
 </script>
 
-<div class="grid h-full grid-cols-10">
-	<!-- Large product image -->
-	<div class="col-span-7">
-		<img src={product.image} width={1200} height={800} alt={product.description} class="h-full w-full object-cover" />
-	</div>
-
+<div class="relative grid h-full grid-cols-10">
 	<!-- Close button -->
 	<a href={'/'} class="absolute right-8 top-8 h-4 w-4">
 		<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -23,8 +19,12 @@
 		</svg>
 	</a>
 
-	<!-- Product description -->
+	<!-- Large product image -->
+	<img src={product.image} width={1200} height={800} alt={product.description} class="col-span-7 h-full w-full object-cover" />
+
+	<!-- Left side column -->
 	<div class="col-span-3 flex flex-col justify-between bg-white px-12 py-40">
+		<!-- Description -->
 		<div>
 			<div class="flex flex-row">
 				<div class="flex h-10 w-full flex-row justify-between">
@@ -32,7 +32,7 @@
 						{product.code.toUpperCase()}
 					</div>
 					<div class=" text-lg font-extrabold leading-normal text-slate-800">
-						{product.price}
+						{new Intl.NumberFormat(LOCALES, { style: 'currency', currency: CURRENCY }).format(product.price / 100)}
 					</div>
 				</div>
 			</div>
@@ -44,6 +44,7 @@
 			</div>
 		</div>
 
+		<!-- Add to cart  -->
 		<form method="POST" action="?/add" use:enhance>
 			<input type="hidden" name="product-code" value={product.code} />
 			<button class="h-11 w-full rounded bg-violet-500 text-white"> Add to cart</button>

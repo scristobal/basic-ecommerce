@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Cart, Discount, Product } from '$lib/types';
+	import { CURRENCY, LOCALES } from '$lib/constants';
 
 	export let products: Product[] = [];
 	export let cart: Cart = {};
@@ -25,7 +26,7 @@
 		<div class="my-10 flex justify-between">
 			<div class="text-sm font-normal leading-none text-slate-800">{totalItems} Items</div>
 			<div class="text-right text-sm font-normal leading-none text-black">
-				{totalCost}
+				{new Intl.NumberFormat(LOCALES, { style: 'currency', currency: CURRENCY }).format(totalCost / 100)}
 			</div>
 		</div>
 
@@ -37,9 +38,13 @@
 					{#each discounts as discount}
 						<div class=" flex justify-between">
 							<div class="text-sm font-normal leading-none text-slate-800">{discount.name}</div>
-							<div class="text-right text-sm font-normal leading-none text-black">
-								{discount.amount}
-							</div>
+							{#if discount.amount > 0}
+								<span class="text-right text-sm font-normal leading-none text-black"
+									>{new Intl.NumberFormat(LOCALES, { style: 'currency', currency: CURRENCY }).format(-discount.amount / 100)}
+								</span>
+							{:else}
+								<span class="text-right text-sm font-normal leading-none text-red-600">buy {discount.more} more</span>
+							{/if}
 						</div>
 					{/each}
 				</div>
@@ -53,7 +58,7 @@
 			<div class="flex items-center justify-between border-t border-slate-800 border-opacity-20 py-4 align-middle">
 				<div class="text-xl font-normal leading-none text-slate-800">Total</div>
 				<div class="text-right text-xl font-normal leading-normal text-black">
-					{totalCheckout}
+					{new Intl.NumberFormat(LOCALES, { style: 'currency', currency: CURRENCY }).format(totalCheckout / 100)}
 				</div>
 			</div>
 		{/if}

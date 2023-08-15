@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { Cart, Product } from '$lib/types';
+	import { CURRENCY, LOCALES } from '$lib/constants';
 
 	export let products: Product[];
 	export let cart: Cart;
@@ -69,7 +70,7 @@
 
 		<!-- Product total price -->
 		<div class="grid place-items-center text-center text-base font-normal leading-none text-black">
-			{(cart[product.code] ?? 0) * product.price}
+			{new Intl.NumberFormat(LOCALES, { style: 'currency', currency: CURRENCY }).format(((cart[product.code] ?? 0) * product.price) / 100)}
 		</div>
 	</div>
 {/each}

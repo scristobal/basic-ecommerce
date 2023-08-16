@@ -1,7 +1,6 @@
 import { db } from '$lib/server/mock_db.js';
 import { redirect } from '@sveltejs/kit';
 import type { Cart } from '$lib/types';
-import { getDiscount } from '$lib/core/offers.js';
 
 export async function load({ params, cookies }) {
 	const code = params.slug;
@@ -15,13 +14,8 @@ export async function load({ params, cookies }) {
 	const quantity = cart[code] ?? 0;
 
 	const offers = await db.offers.getByProductCode(code);
-	const discounts = [];
 
-	for (const offer of offers) {
-		discounts.push(getDiscount(offer, product, quantity));
-	}
-
-	return { product, discounts };
+	return { product, offers, quantity };
 }
 
 export const actions = {

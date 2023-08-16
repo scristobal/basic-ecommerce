@@ -52,14 +52,18 @@ export const db = {
 		_data: [
 			{
 				type: BULK_OFFER,
+				id: 'CFO_BULK_1',
+				name: `x3 t-shirt offer`,
 				productCode: 'TSHIRT',
-				minQuantity: 3,
+				minPurchase: 3,
 				percentage: 25
 			},
 			{
 				type: BUYXGETY,
+				id: 'SALES_BUYXGETY_1',
+				name: '3x1 cap offer',
 				productCode: 'CAP',
-				buy: 3,
+				minPurchase: 3,
 				getFree: 1
 			}
 		] as Offer[],

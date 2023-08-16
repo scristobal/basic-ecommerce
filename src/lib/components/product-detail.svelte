@@ -1,10 +1,18 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import type { Discount, Product } from '$lib/types';
+	import type { Offer, Product } from '$lib/types';
 	import { CURRENCY, LOCALES } from '$lib/constants';
 
 	export let product: Product;
-	export let discounts: Discount[] = [];
+	export let quantity: number;
+	export let offers: Offer[] = [];
+
+	$: discounts = offers.map((offer) => {
+		return {
+			name: offer.name,
+			more: Math.max(0, offer.minPurchase - quantity)
+		};
+	});
 </script>
 
 <div class="relative grid h-full grid-cols-10">
@@ -50,7 +58,7 @@
 				{#if discount.more ?? 0 > 0}
 					<div class="my-4 text-sm text-red-600">add {discount.more} more to get a {discount.name}</div>
 				{:else}
-					<div class="my-4 text-sm text-black">{discount.name} applied</div>
+					<div class="my-4 text-sm text-green-600">{discount.name} applied!</div>
 				{/if}
 			{/each}
 			<!-- Add to cart  -->

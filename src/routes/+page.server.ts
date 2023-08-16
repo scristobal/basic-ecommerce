@@ -1,29 +1,26 @@
 import { db } from '$lib/server/mock_db';
-import type { Cart, Discount } from '$lib/types.js';
-import { getDiscount } from '$lib/core/offers.js';
+import type { Cart, Offer } from '$lib/types.js';
 
 export async function load({ cookies }) {
 	const products = await db.products.getAll();
 
-	const discounts: Discount[] = [];
+	const offers: Offer[] = [];
 
 	const cart = JSON.parse(cookies.get('cart') ?? '{}') as Cart;
 
-	for (const [code, quantity] of Object.entries(cart)) {
+	for (const code of Object.keys(cart)) {
 		const product = await db.products.getByCode(code);
 
 		if (product === undefined) throw new Error(`Product with code ${code} not found`);
 
-		const offers = await db.offers.getByProductCode(code);
+		const productOffers = await db.offers.getByProductCode(code);
 
-		for (const offer of offers) {
-			discounts.push(getDiscount(offer, product, quantity));
-		}
+		offers.push(...productOffers);
 	}
 
 	const checked: boolean = JSON.parse(cookies.get('checkout') ?? 'false');
 
-	return { products, discounts, cart, checked };
+	return { products, offers, cart, checked };
 }
 
 export const actions = {

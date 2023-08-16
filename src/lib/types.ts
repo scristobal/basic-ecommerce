@@ -2,12 +2,12 @@ import type { BULK_OFFER, BUYXGETY } from '$lib/constants';
 
 export type Product = { name: string; code: string; price: number; image: string; thumb: string; description: string };
 
-export type Discount = { name: string; amount: number; more?: number };
-
 export type Cart = { [code: string]: number };
 
-export type BulkOffer = { type: typeof BULK_OFFER; productCode: string; minQuantity: number; percentage: number };
+type BaseOffer = { type: string; id: string; name: string; productCode: string; minPurchase: number };
 
-export type BuyXGetYOffer = { type: typeof BUYXGETY; productCode: string; buy: number; getFree: number };
+type BulkOffer = { type: typeof BULK_OFFER; percentage: number };
 
-export type Offer = BulkOffer | BuyXGetYOffer;
+type BuyXGetYOffer = { type: typeof BUYXGETY; getFree: number };
+
+export type Offer = BaseOffer & (BulkOffer | BuyXGetYOffer);

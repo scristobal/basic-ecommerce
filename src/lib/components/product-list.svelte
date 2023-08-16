@@ -50,7 +50,6 @@
 		</div>
 
 		<!-- Product cart actions -->
-
 		<form class="flex items-center justify-center" method="POST" use:enhance>
 			<input type="hidden" name="product-code" value={product.code} />
 			<button class="justify-center text-xl font-normal leading-normal text-violet-500 hover:text-violet-700 group-hover:drop-shadow" formaction="?/decrease"> - </button>

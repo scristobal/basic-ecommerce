@@ -1,16 +1,31 @@
 <script lang="ts">
-	import type { Cart, Discount, Product } from '$lib/types';
+	import type { Offer, Product } from '$lib/types';
 	import { CURRENCY, LOCALES } from '$lib/constants';
+	import { getDiscount } from '$lib/core/offers';
+	import { cart, checkout } from '$lib/store';
 
 	export let products: Product[];
-	export let cart: Cart;
-	export let discounts: Discount[];
-	export let checked: boolean;
+	export let offers: Offer[];
 
-	$: totalItems = Object.values(cart).reduce((acc, curr) => acc + curr, 0);
+	$: discounts = offers.map((offer) => {
+		const quantity = $cart[offer.productCode] ?? 0;
+		const product = products.find((p) => p.code === offer.productCode);
+
+		if (product === undefined) throw new Error(`Product ${offer.productCode} not found`);
+
+		const amount = getDiscount(offer, product, quantity);
+
+		return {
+			name: offer.name,
+			amount,
+			more: Math.max(0, offer.minPurchase - quantity)
+		};
+	});
+
+	$: totalItems = Object.values($cart).reduce((acc, curr) => acc + curr, 0);
 
 	$: totalCost = products.reduce((acc, curr) => {
-		const quantity = cart[curr.code] ?? 0;
+		const quantity = $cart[curr.code] ?? 0;
 		return acc + quantity * curr.price;
 	}, 0);
 
@@ -54,7 +69,7 @@
 	<!-- Flex space -->
 	<div>
 		<!-- total -->
-		{#if checked}
+		{#if $checkout}
 			<div class="flex items-center justify-between border-t border-slate-800 border-opacity-20 py-4 align-middle">
 				<div class="text-xl font-normal leading-none text-slate-800">Total</div>
 				<div class="text-right text-xl font-normal leading-normal text-black">
@@ -67,9 +82,7 @@
 		<button
 			class="h-11 w-full rounded bg-violet-500 text-base font-normal leading-none text-white enabled:hover:bg-violet-700 enabled:hover:drop-shadow disabled:cursor-not-allowed disabled:bg-violet-400"
 			disabled={totalItems === 0}
-			on:click={() => {
-				checked = true;
-			}}
+			on:click={() => ($checkout = true)}
 		>
 			Checkout
 		</button>

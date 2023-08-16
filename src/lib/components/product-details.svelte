@@ -1,11 +1,13 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
 	import type { Offer, Product } from '$lib/types';
 	import { CURRENCY, LOCALES } from '$lib/constants';
+	import { cart } from '$lib/store';
+	import { goto } from '$app/navigation';
 
 	export let product: Product;
-	export let quantity: number;
 	export let offers: Offer[] = [];
+
+	$: quantity = $cart[product.code] ?? 0;
 
 	$: discounts = offers.map((offer) => {
 		return {
@@ -62,10 +64,16 @@
 				{/if}
 			{/each}
 			<!-- Add to cart  -->
-			<form method="POST" action="?/add" use:enhance>
-				<input type="hidden" name="product-code" value={product.code} />
-				<button class="h-11 w-full rounded bg-violet-500 text-white"> Add to cart</button>
-			</form>
+
+			<button
+				class="h-11 w-full rounded bg-violet-500 text-white"
+				on:click={async () => {
+					$cart[product.code] = Math.max(0, quantity + 1);
+					goto('/');
+				}}
+			>
+				Add to cart</button
+			>
 		</div>
 	</div>
 </div>

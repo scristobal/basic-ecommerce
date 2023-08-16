@@ -1,15 +1,15 @@
 <script lang="ts">
-	import type { Cart, Offer, Product } from '$lib/types';
+	import type { Offer, Product } from '$lib/types';
 	import { CURRENCY, LOCALES } from '$lib/constants';
 	import { getDiscount } from '$lib/core/offers';
+	import { cart } from '$lib/store';
 
 	export let products: Product[];
-	export let cart: Cart;
 	export let offers: Offer[];
 	export let checked: boolean;
 
 	$: discounts = offers.map((offer) => {
-		const quantity = cart[offer.productCode] ?? 0;
+		const quantity = $cart[offer.productCode] ?? 0;
 		const product = products.find((p) => p.code === offer.productCode);
 
 		if (product === undefined) throw new Error(`Product ${offer.productCode} not found`);
@@ -23,10 +23,10 @@
 		};
 	});
 
-	$: totalItems = Object.values(cart).reduce((acc, curr) => acc + curr, 0);
+	$: totalItems = Object.values($cart).reduce((acc, curr) => acc + curr, 0);
 
 	$: totalCost = products.reduce((acc, curr) => {
-		const quantity = cart[curr.code] ?? 0;
+		const quantity = $cart[curr.code] ?? 0;
 		return acc + quantity * curr.price;
 	}, 0);
 

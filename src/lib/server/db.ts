@@ -1,7 +1,7 @@
 import type { Offer, Product } from '$lib/types';
 import { BULK_OFFER, BUYXGETY } from '$lib/constants';
 
-const DELAY_MS = 0;
+const DELAY_MS = 100;
 /**
  * Mock database
  * This file is used to simulate a database

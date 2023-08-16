@@ -9,7 +9,5 @@ export function getDiscount(offer: Offer, product: Product, quantity: number): n
 		case BUYXGETY: {
 			return quantity >= offer.minPurchase ? product.price * (Math.floor(quantity / offer.minPurchase) * offer.getFree) : 0;
 		}
-		default:
-			throw new Error(`Unknown offer type: ${offer}`);
 	}
 }

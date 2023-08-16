@@ -1,5 +1,6 @@
 import { db } from '$lib/server/mock_db';
 import type { Cart, Offer } from '$lib/types.js';
+import { error } from '@sveltejs/kit';
 
 export async function load({ cookies }) {
 	const products = await db.products.getAll();
@@ -11,7 +12,7 @@ export async function load({ cookies }) {
 	for (const code of Object.keys(cart)) {
 		const product = await db.products.getByCode(code);
 
-		if (product === undefined) throw new Error(`Product with code ${code} not found`);
+		if (product === undefined) throw error(404, `Product with code ${code} not found`);
 
 		const productOffers = await db.offers.getByProductCode(code);
 
@@ -29,7 +30,7 @@ export const actions = {
 
 		const code = data.get('product-code')?.toString();
 
-		if (code === undefined) throw new Error('Product code not found');
+		if (code === undefined) throw error(404, 'Product code not found');
 
 		const cart = JSON.parse(cookies.get('cart') ?? '{}');
 
@@ -51,7 +52,7 @@ export const actions = {
 
 		const code = data.get('product-code')?.toString();
 
-		if (code === undefined) throw new Error('Product code not found');
+		if (code === undefined) throw error(404, 'Product code not found');
 
 		const cart = JSON.parse(cookies.get('cart') ?? '{}');
 

@@ -6,6 +6,8 @@ export type Discount = { name: string; amount: number; more?: number };
 
 export type Cart = { [code: string]: number };
 
-export type Offer =
-	| { type: typeof BULK_OFFER; productCode: string; minQuantity: number; percentage: number }
-	| { type: typeof BUYXGETY; productCode: string; buy: number; getFree: number };
+export type BulkOffer = { type: typeof BULK_OFFER; productCode: string; minQuantity: number; percentage: number };
+
+export type BuyXGetYOffer = { type: typeof BUYXGETY; productCode: string; buy: number; getFree: number };
+
+export type Offer = BulkOffer | BuyXGetYOffer;

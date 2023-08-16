@@ -1,6 +1,7 @@
 import type { Offer, Product } from '$lib/types';
 import { BULK_OFFER, BUYXGETY } from '$lib/constants';
 
+const DELAY_MS = 0;
 /**
  * Mock database
  * This file is used to simulate a database
@@ -37,9 +38,13 @@ export const db = {
 			}
 		] as Product[],
 		async getAll(): Promise<Product[]> {
+			// wait 1s
+			await new Promise((resolve) => setTimeout(resolve, DELAY_MS));
 			return this._data;
 		},
 		async getByCode(code: string): Promise<Product | undefined> {
+			await new Promise((resolve) => setTimeout(resolve, DELAY_MS));
+
 			return this._data.find((product) => product.code === code);
 		}
 	},
@@ -59,6 +64,8 @@ export const db = {
 			}
 		] as Offer[],
 		async getByProductCode(productCode: string): Promise<Offer[]> {
+			await new Promise((resolve) => setTimeout(resolve, DELAY_MS));
+
 			return this._data.filter((offer) => offer.productCode === productCode);
 		}
 	}

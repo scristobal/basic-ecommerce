@@ -5,7 +5,7 @@
 	export let products: Product[];
 	export let cart: Cart;
 	export let discounts: Discount[];
-	export let checkout: boolean;
+	export let checked: boolean;
 
 	$: totalItems = Object.values(cart).reduce((acc, curr) => acc + curr, 0);
 
@@ -54,7 +54,7 @@
 	<!-- Flex space -->
 	<div>
 		<!-- total -->
-		{#if checkout}
+		{#if checked}
 			<div class="flex items-center justify-between border-t border-slate-800 border-opacity-20 py-4 align-middle">
 				<div class="text-xl font-normal leading-none text-slate-800">Total</div>
 				<div class="text-right text-xl font-normal leading-normal text-black">
@@ -68,7 +68,7 @@
 			class="h-11 w-full rounded bg-violet-500 text-base font-normal leading-none text-white enabled:hover:bg-violet-700 enabled:hover:drop-shadow disabled:cursor-not-allowed disabled:bg-violet-400"
 			disabled={totalItems === 0}
 			on:click={() => {
-				checkout = true;
+				checked = true;
 			}}
 		>
 			Checkout

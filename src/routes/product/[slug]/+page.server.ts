@@ -1,7 +1,7 @@
 import { db } from '$lib/server/mock_db.js';
 import { redirect } from '@sveltejs/kit';
 import type { Cart } from '$lib/types';
-import { BULK_OFFER, BUYXGETY } from '$lib/constants.js';
+import { getDiscount } from '$lib/core/offers.js';
 
 export async function load({ params, cookies }) {
 	const code = params.slug;
@@ -18,22 +18,7 @@ export async function load({ params, cookies }) {
 	const discounts = [];
 
 	for (const offer of offers) {
-		switch (offer.type) {
-			case BULK_OFFER: {
-				const name = `x${offer.minQuantity} ${product.name} offer`;
-				const amount = quantity >= offer.minQuantity ? (product.price * quantity * offer.percentage) / 100 : 0;
-
-				discounts.push({ name, amount, more: Math.max(offer.minQuantity - quantity, 0) });
-				break;
-			}
-			case BUYXGETY: {
-				const name = `${offer.buy}x${offer.getFree} ${product.name} offer`;
-				const amount = quantity >= offer.buy ? product.price * (Math.floor(quantity / offer.buy) * offer.getFree) : 0;
-
-				discounts.push({ name, amount, more: Math.max(offer.buy - quantity, 0) });
-				break;
-			}
-		}
+		discounts.push(getDiscount(offer, product, quantity));
 	}
 
 	return { product, discounts };

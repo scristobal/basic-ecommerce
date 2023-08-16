@@ -10,6 +10,6 @@
 		<Products products={data.products} cart={data.cart} />
 	</div>
 	<div class=" col-span-3 bg-zinc-300 px-9 py-12">
-		<Checkout products={data.products} cart={data.cart} discounts={data.discounts} checkout={data.checkout} />
+		<Checkout products={data.products} cart={data.cart} discounts={data.discounts} checked={data.checked} />
 	</div>
 </div>

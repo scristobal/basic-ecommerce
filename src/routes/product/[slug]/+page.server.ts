@@ -1,4 +1,4 @@
-import { db } from '$lib/server/mock_db.js';
+import { db } from '$lib/server/db';
 import { error, redirect } from '@sveltejs/kit';
 import type { Cart } from '$lib/types';
 

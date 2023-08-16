@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Detail from '$lib/components/product-detail.svelte';
+	import Details from '$lib/components/product-details.svelte';
 
 	export let data;
 </script>
 
-<Detail product={data.product} quantity={data.quantity} offers={data.offers} />
+<Details product={data.product} quantity={data.quantity} offers={data.offers} />

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Products from '$lib/components/product-list.svelte';
-	import Checkout from '$lib/components/checkout.svelte';
+	import Cart from '$lib/components/cart-details.svelte';
 
 	export let data;
 </script>
@@ -10,6 +10,6 @@
 		<Products products={data.products} cart={data.cart} />
 	</div>
 	<div class=" col-span-3 bg-zinc-300 px-9 py-12">
-		<Checkout products={data.products} cart={data.cart} offers={data.offers} checked={data.checked} />
+		<Cart products={data.products} cart={data.cart} offers={data.offers} checked={data.checked} />
 	</div>
 </div>

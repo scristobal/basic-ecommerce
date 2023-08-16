@@ -38,7 +38,6 @@ export const db = {
 			}
 		] as Product[],
 		async getAll(): Promise<Product[]> {
-			// wait 1s
 			await new Promise((resolve) => setTimeout(resolve, DELAY_MS));
 			return this._data;
 		},

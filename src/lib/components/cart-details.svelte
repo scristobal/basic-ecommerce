@@ -82,9 +82,7 @@
 		<button
 			class="h-11 w-full rounded bg-violet-500 text-base font-normal leading-none text-white enabled:hover:bg-violet-700 enabled:hover:drop-shadow disabled:cursor-not-allowed disabled:bg-violet-400"
 			disabled={totalItems === 0}
-			on:click={() => {
-				$checkout = true;
-			}}
+			on:click={() => ($checkout = true)}
 		>
 			Checkout
 		</button>

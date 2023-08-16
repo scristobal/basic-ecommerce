@@ -55,7 +55,9 @@
 			</div>
 		</div>
 
+		<!-- Call to action -->
 		<div>
+			<!-- Show available offers and status -->
 			{#each discounts as discount}
 				{#if discount.more ?? 0 > 0}
 					<div class="my-4 text-sm text-red-600">add {discount.more} more to get a {discount.name}</div>
@@ -63,17 +65,9 @@
 					<div class="my-4 text-sm text-green-600">{discount.name} applied!</div>
 				{/if}
 			{/each}
-			<!-- Add to cart  -->
 
-			<button
-				class="h-11 w-full rounded bg-violet-500 text-white"
-				on:click={async () => {
-					$cart[product.code] = Math.max(0, quantity + 1);
-					goto('/');
-				}}
-			>
-				Add to cart</button
-			>
+			<!-- Add to cart  -->
+			<button class="h-11 w-full rounded bg-violet-500 text-white" on:click={() => ($cart[product.code] = Math.max(0, quantity + 1)) && goto('/')}> Add to cart</button>
 		</div>
 	</div>
 </div>

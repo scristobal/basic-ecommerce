@@ -1,7 +1,7 @@
 import { db } from '$lib/server/db';
 import type { Offer } from '$lib/types.js';
 
-export async function load({ cookies }) {
+export async function load() {
 	const products = await db.products.getAll();
 
 	const offers: Offer[] = [];
@@ -12,9 +12,7 @@ export async function load({ cookies }) {
 		offers.push(...productOffers);
 	}
 
-	const checked: boolean = JSON.parse(cookies.get('checkout') ?? 'false');
-
-	return { products, offers, checked };
+	return { products, offers };
 }
 
 export const actions = {

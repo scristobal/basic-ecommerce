@@ -15,3 +15,7 @@ if (browser && window?.localStorage !== undefined) {
 } else {
 	cart = writable({} as Cart);
 }
+
+export const checkout = writable(false);
+
+cart.subscribe(() => checkout.set(false));

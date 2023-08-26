@@ -1,4 +1,4 @@
-import type { BULK_OFFER, BUYXGETY } from '$lib/constants';
+import type { BULK_OFFER, BUYXGETY } from '$lib/core/offers';
 
 export type Product = { name: string; code: string; price: number; image: string; thumb: string; description: string };
 

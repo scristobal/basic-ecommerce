@@ -1,15 +1,16 @@
 <script lang="ts">
-	import Products from '$lib/components/product-list.svelte';
-	import Cart from '$lib/components/cart-details.svelte';
+    import Products from '$lib/components/product-list.svelte';
+    import Cart from '$lib/components/cart-details.svelte';
 
-	export let data;
+    export let data;
+    export let form;
 </script>
 
 <div class="grid h-full grid-cols-10">
-	<div class="col-span-7 bg-white px-16 py-12">
-		<Products products={data.products} />
-	</div>
-	<div class=" col-span-3 bg-zinc-300 px-9 py-12">
-		<Cart products={data.products} offers={data.offers} />
-	</div>
+    <div class="col-span-7 bg-white px-16 py-12">
+        <Products products={data.products} />
+    </div>
+    <div class=" col-span-3 bg-zinc-300 px-9 py-12">
+        <Cart products={data.products} offers={data.offers} total={form?.checkout} />
+    </div>
 </div>

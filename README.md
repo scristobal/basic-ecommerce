@@ -22,6 +22,7 @@ This repo contains the code for this [Frontend Challenge](/CHALLENGE.md)
   - Base theme extended with a custom font.
   - In some cases, on the fly class generation using square bracket notation.
   - Assets processed to increase performance, eg. reduced image size.
+  - Basic responsible design.
 
 - Business logic separated from the UI with minimum boilerplate code and easily scalable:
   - The `BaseOffer` defines a common data interface + specialized interfaces for each offer type, eg. `BulkOffer` and `BuyXGetYOffer`.
@@ -32,19 +33,19 @@ This repo contains the code for this [Frontend Challenge](/CHALLENGE.md)
   - The `checkout` action is performed server side, the cart is send using `formData` and the server verifies the integrity and applicable offers sending back the actual total after discounts.
 
 - Tested with Vitest (unit) and Playwright (e2e):
-  - Each requirement has a corresponding e2e Playwright test
-  - Test fixtures and POM (Page Object Model) makes it easy to create new tests
-  - Core logic (offers and checkout) unit tested with Vitest
+  - Each requirement has a corresponding e2e Playwright test.
+  - Test fixtures and POM (Page Object Model) makes it easy to create new tests.
+  - Core logic (offers and checkout) unit tested with Vitest.
   - Each example corresponds to a unitary test of the checkout function.
 
 ## Additional features
 
 In addition to the strictly necessary requirements the following features were also included:
 
-- In the shop page, show the number of items necessary to get a discount
-- In the product page, show available offers and status for current product
-- Products can have multiple offers
-- Cart is handled client side but checkout is done on the server side
+- In the shop page, show the number of items necessary to get a discount.
+- In the product page, show available offers and status for current product.
+- Products can have multiple offers.
+- Cart is handled client side but checkout is done on the server side.
 - Deployed automatically using Vercel, high Lighthouse scores:
 ![Performance report](/lh_report.png)
 the low accessibility score is mainly due to low contrast color choices, fixing it would require to change the page design.
@@ -53,14 +54,14 @@ the low accessibility score is mainly due to low contrast color choices, fixing 
 
 Further work on this project could include:
 
-- Included tests cover basic functionality and requirements, but not edge cases
-- Although the commit messages are clear, they do not follow conventional commit standard
-- Accessibility could be improved, main problem is color contrast
-- Internalization, only Euros and English language is supported
-- Pagination of products/offers, as current design will not scale
-- Improve overall styles, eg. animations and effects, dark mode, color themes
-- The design is not responsive
-- Limited error handling, focused on happy path, logging and/or tracing could also be improved
+- Included tests cover basic functionality and requirements, but not edge cases.
+- Although the commit messages are clear, they do not follow conventional commit standard.
+- Accessibility could be improved, main problem is color contrast.
+- Internalization, only Euros and English language is supported.
+- Pagination of products/offers, as current design will not scale.
+- Improve overall styles, eg. animations and effects, dark mode, color themes.
+- The responsive design is very limited and could be easily improved.
+- Limited error handling, focused on happy path, logging and/or tracing could also be improved.
 
 ## Instructions
 

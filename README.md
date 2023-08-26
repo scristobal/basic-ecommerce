@@ -43,7 +43,7 @@ What was done:
   - Cart is handled client side but checkout is done on the server side
 
 - Deployed automatically using Vercel, Lighthouse scores:
-![Performance report](/docs/lh_report.png)
+![Performance report](/lh_report.png)
 the low accessibility score is mainly due to low contrast color choices, fixing it would require to change the page design.
 
 What could be improved:

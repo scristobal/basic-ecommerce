@@ -12,7 +12,7 @@ What was done:
   - each page have a minimal number of components
   - components contain no logic, limited to render props and trigger actions
   - use of server load functions to load the latest products and offers from the database
-  - the checkout is computed securely on the server using form actions
+  - the checkout is computed securely on the server using form actions, displays a loading hint and small animation
 
 - Styled with Tailwind CSS
   - pixel perfect with the original design with some minor fixes

@@ -48,6 +48,7 @@ What could be improved:
 - Although the commit messages are clear, they do not follow conventional commit standard
 - Accessibility is limited, most html is semantic, but it could be improved and should be tested
 - Internalization, only Euros and English language is supported
+- Pagination of products/offers, as current design will not scale
 - Improve overall styles, eg. animations and effects dark mode, color themes, responsive...
 - Limited error handling, focused on happy path, logging and/or tracing could also be improved
 

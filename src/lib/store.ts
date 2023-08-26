@@ -10,7 +10,3 @@ if (browser && window?.localStorage !== undefined) {
     cart = writable(storedCart);
     cart.subscribe((cart) => localStorage.setItem('cart', JSON.stringify(cart)));
 } else cart = writable({} as Cart);
-
-export const checkout = writable(false);
-
-cart.subscribe(() => checkout.set(false));

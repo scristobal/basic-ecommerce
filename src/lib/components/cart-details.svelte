@@ -1,13 +1,15 @@
 <script lang="ts">
     import type { Offer, Product } from '$lib/types';
     import { getDiscount } from '$lib/core/offers';
-    import { cart, checkout } from '$lib/store';
+    import { cart } from '$lib/store';
     import { formatCurrency } from '$lib/helpers/currency';
     import { enhance } from '$app/forms';
 
     export let products: Product[];
     export let offers: Offer[];
-    export let total: number | undefined;
+    export let checkout: number | undefined;
+
+    cart.subscribe(() => (checkout = undefined));
 
     $: discounts = offers.map((offer) => {
         const quantity = $cart[offer.productCode] ?? 0;
@@ -25,11 +27,7 @@
     });
 
     $: totalItems = Object.values($cart).reduce((acc, curr) => acc + curr, 0);
-
-    $: totalCost = products.reduce((acc, curr) => {
-        const quantity = $cart[curr.code] ?? 0;
-        return acc + quantity * curr.price;
-    }, 0);
+    $: totalCost = products.reduce((acc, curr) => acc + ($cart[curr.code] ?? 0) * curr.price, 0);
 </script>
 
 <div class="flex h-full flex-col justify-between" data-testid="cart">
@@ -63,10 +61,10 @@
     <!-- Checkout section -->
     <section>
         <!-- total -->
-        {#if $checkout && total !== undefined}
+        {#if checkout !== undefined}
             <div class="flex items-center justify-between border-t border-slate-800 border-opacity-20 py-4 align-middle">
                 <div class="text-xl font-normal leading-none text-slate-800">Total</div>
-                <div class="text-right text-xl font-normal leading-normal text-black">{formatCurrency(total)}</div>
+                <div class="text-right text-xl font-normal leading-normal text-black">{formatCurrency(checkout)}</div>
             </div>
         {/if}
         <!-- checkout -->
@@ -74,10 +72,9 @@
             <input hidden value={JSON.stringify($cart)} name="cart" />
             <button
                 class="h-11 w-full rounded bg-violet-500 text-base font-normal leading-none text-white enabled:hover:bg-violet-700 enabled:hover:drop-shadow disabled:cursor-not-allowed disabled:bg-violet-400"
-                disabled={totalItems === 0}
-                on:click={() => ($checkout = true)}
+                disabled={totalItems === 0 || checkout !== undefined}
             >
-                Checkout
+                {checkout === undefined ? 'Checkout' : 'Purchase not available'}
             </button>
         </form>
     </section>

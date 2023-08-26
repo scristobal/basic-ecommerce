@@ -11,6 +11,6 @@
         <Products products={data.products} />
     </div>
     <div class=" col-span-3 bg-zinc-300 px-9 py-12">
-        <Cart products={data.products} offers={data.offers} total={form?.checkout} />
+        <Cart products={data.products} offers={data.offers} checkout={form?.checkout} />
     </div>
 </div>

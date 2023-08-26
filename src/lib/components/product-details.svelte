@@ -17,7 +17,7 @@
     });
 </script>
 
-<section class="relative grid h-full grid-cols-10">
+<section class="relative h-full overflow-auto md:grid md:grid-cols-10">
     <!-- Close button -->
     <a href={'/'} class="absolute right-8 top-8 h-4 w-4">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">

@@ -6,11 +6,11 @@
     export let form;
 </script>
 
-<div class="grid h-full grid-cols-10">
-    <div class="col-span-7 bg-white px-16 py-12">
+<div class="h-full overflow-auto lg:grid lg:grid-cols-10">
+    <div class="bg-white px-16 py-12 lg:col-span-7">
         <Products products={data.products} />
     </div>
-    <div class=" col-span-3 bg-zinc-300 px-9 py-12">
+    <div class="bg-zinc-300 px-9 py-12 lg:col-span-3">
         <Cart products={data.products} offers={data.offers} checkout={form?.checkout} />
     </div>
 </div>

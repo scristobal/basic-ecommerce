@@ -1,3 +1,60 @@
+# Frontend Challenge, Solution
+
+This repo consist on the code for the Frontend Challenge described below.
+
+What was done:
+
+- No dependencies, 100% type safe, including some exotic types like discriminated unions.
+
+- Build using Svelte and Sveltekit, with a simple structure:
+  - file based routing, each product page is SSR based on a slug
+  - shared layout between the products/cart and each product page
+  - each page have a minimal number of components
+  - components contain no logic, limited to render props and trigger actions
+  - use of server load functions to load the latest products and offers from the database
+  - the checkout is computed securely on the server using form actions
+
+- Styled with Tailwind CSS
+  - pixel perfect with the original design with some minor fixes
+  - extended base theme with custom font
+  - on the fly class generation using square bracket notation
+  - assets processed to increase performance, eg. reduced image size
+
+- Business logic separated from the UI with minimum boilerplate code and easily scalable:
+  - The `BaseOffer` defines a common data interface + specialized interfaces for each offer type, eg. `BulkOffer` and `BuyXGetYOffer`
+  - The function `getDiscount` contains the logic and it is easily extensible by adding more cases to the switch statement
+  - Products, offers are stored in a mock database, this detaches the UI from the data, adding new product/offers is as simple as modifying the database
+  - Money is modeled as cents of Euro, therefore integers, and formatted using `Intl`
+  - Cart is modelled as a `writable` store and persisted on the user agent using `localStorage`
+
+- Thoroughly tested:
+  - Each requirement has a corresponding e2e Playwright test
+  - Test fixtures and POM (Page Object Model) makes it easy to create new tests
+  - Core logic unit tested with Vitest
+
+- Code documented and commented whenever something is not straightforward, including sources/ref when possible
+
+- Additional features
+  - Offer show the number of items necessary to get a discount
+  - The product page shows available offers
+  - Products can have multiple offers
+  - Cart is handled client side but final checkout is server side
+
+- Deployed automatically using Vercel
+
+What could be improved:
+
+- There is never enough tests, eg. component tests
+- Although the commit messages are clear, they do not follow conventional commit standard
+- Accessibility is limited, most html is semantic, but it could be improved and should be tested
+- Internalization, only Euros and English language is supported
+- Improve overall styles, eg. animations and effects dark mode, color themes, responsive...
+- Limited error handling, focused on happy path, logging and/or tracing could also be improved
+
+---
+
+> Original README.md
+
 # Frontend Challenge
 
 Hi! Welcome to this Frontend Challenge! First and foremost, please read this document carefully, as we want to make sure all the implementation details are well understood.
@@ -48,19 +105,19 @@ Total: 62.50€
 
 ### The solution should
 
-* Be written in Typescript (let us know if this is your first time!)
-* Be built using Svelte, React, Vue, or similar component based framework.
-* Focus on solving the business problem (less boilerplate!)
-* Have a clear structure.
-* Be easy to grow with new functionality.
+- Be written in Typescript (let us know if this is your first time!)
+- Be built using Svelte, React, Vue, or similar component based framework.
+- Focus on solving the business problem (less boilerplate!)
+- Have a clear structure.
+- Be easy to grow with new functionality.
 
 ### Bonus Points For
 
-* Unit tests
-* Functional tests
-* Dealing with money as integers
-* Formatting money output
-* Useful comments
-* Documentation
-* Docker images / CI
-* Commit messages
+- Unit tests
+- Functional tests
+- Dealing with money as integers
+- Formatting money output
+- Useful comments
+- Documentation
+- Docker images / CI
+- Commit messages

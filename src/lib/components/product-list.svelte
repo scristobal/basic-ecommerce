@@ -16,7 +16,7 @@
 
 <section>
     <!-- Table headers -->
-    <h2 class="my-8 grid w-full grid-cols-6 text-xs uppercase leading-3 text-gray-400">
+    <h2 class="my-8 hidden w-full grid-cols-6 text-xs uppercase leading-3 text-gray-400 md:grid">
         <span class="col-span-3 text-left">Product Details</span>
         <span class="text-center font-normal">Quantity</span>
         <span class="text-center font-normal">Price</span>
@@ -24,7 +24,7 @@
     </h2>
     <!-- Products  -->
     {#each rows as { product, quantity }}
-        <div class="mb-8 grid w-full grid-cols-6" data-testid={`${product.code}:listing`}>
+        <div class="mb-8 mt-7 flex w-full flex-row justify-between md:mt-0 md:grid md:grid-cols-6 md:items-center" data-testid={`${product.code}:listing`}>
             <!-- Product card -->
             <figure class="group pointer-events-none col-span-3 flex items-center align-middle">
                 <a href={`/product/${product.code}`}>
@@ -68,12 +68,12 @@
             </form>
 
             <!-- Product unit price  -->
-            <span title={`${product.code} price`} class="grid place-items-center text-center text-base font-normal leading-none text-black">
+            <span title={`${product.code} price`} class="hidden place-items-center text-center text-base font-normal leading-none text-black md:grid">
                 {formatCurrency(product.price)}
             </span>
 
             <!-- Product total price -->
-            <span title={`${product.code} total`} class="grid place-items-center text-center text-base font-normal leading-none text-black">
+            <span title={`${product.code} total`} class="hidden place-items-center text-center text-base font-normal leading-none text-black md:grid">
                 {formatCurrency(quantity * product.price)}
             </span>
         </div>

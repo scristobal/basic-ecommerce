@@ -1,6 +1,6 @@
 import { db } from '$lib/server/db';
 import type { Cart, Offer } from '$lib/types.js';
-import { getDiscount } from '../lib/core/offers';
+import { checkout } from '$lib/core/checkout';
 
 export async function load() {
     const products = await db.products.getAll();
@@ -22,21 +22,8 @@ export const actions = {
 
         const cart = JSON.parse(data.get('cart')?.toString() || '{}') as Cart;
 
-        const total = await Object.entries(cart).reduce(async (acc, [code, quantity]) => {
-            const product = await db.products.getByCode(code);
-            return (await acc) + quantity * (product?.price ?? 0);
-        }, Promise.resolve(0));
+        const total = await checkout(cart);
 
-        const discounts = await Object.entries(cart).reduce(async (acc, [code, quantity]) => {
-            const product = await db.products.getByCode(code);
-            if (product === undefined) return acc;
-
-            const offers = await db.offers.getByProductCode(code);
-            const discounts = offers.reduce((acc, offer) => acc + getDiscount(offer, product, quantity), 0);
-
-            return (await acc) + discounts;
-        }, Promise.resolve(0));
-
-        return { checkout: total - discounts };
+        return { checkout: total };
     }
 };

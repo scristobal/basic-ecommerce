@@ -15,6 +15,7 @@ This repo contains the code for this [Frontend Challenge](/CHALLENGE.md)
   - Components contain minimal to no logic at all.
   - The product list is generated using a server load function.
   - Checkout is computed securely on the server using a form action.
+  - Custom error pages, product or page not found
 
 - Styled with Tailwind CSS
   - Pixel perfect replication of the original design with some minor fixes.
@@ -40,8 +41,8 @@ This repo contains the code for this [Frontend Challenge](/CHALLENGE.md)
 
 In addition to the strictly necessary requirements the following features were also included:
 
-- Show the number of items necessary to get a discount
-- The product page shows available offers
+- In the shop page, show the number of items necessary to get a discount
+- In the product page, show available offers and status for current product
 - Products can have multiple offers
 - Cart is handled client side but checkout is done on the server side
 - Deployed automatically using Vercel, high Lighthouse scores:

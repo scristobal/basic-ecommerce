@@ -42,7 +42,7 @@
                         href={`/product/${product.code}`}
                     >
                         {product.name}
-                        <p class=" text-xs font-normal leading-none text-gray-400 transition duration-200 group-hover:text-gray-600 group-hover:drop-shadow">
+                        <p class="text-xs font-normal leading-none text-gray-400 transition duration-200 group-hover:text-gray-600 group-hover:drop-shadow">
                             Product code {product.code}
                         </p>
                     </a>

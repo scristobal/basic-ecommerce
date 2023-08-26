@@ -9,30 +9,31 @@ What was done:
 - No dependencies, 100% type safe, including some exotic types like discriminated unions.
 
 - Build using Svelte and Sveltekit, with a simple structure:
-  - file based routing, each product page is SSR based on a slug
-  - shared layout between the products/cart and each product page
-  - each page have a minimal number of components
-  - components contain minimal to no logic at all
-  - use of server load functions to load the product list
-  - the checkout is computed securely on the server using form actions
+  - File based routing, each product page is SSR based on a slug.
+  - Shared layout between the products/cart and each product page.
+  - Each page has a minimal number of components.
+  - Components contain minimal to no logic at all.
+  - The product list is generated using a server load function.
+  - Checkout is computed securely on the server using a form action.
 
 - Styled with Tailwind CSS
-  - pixel perfect with the original design with some minor fixes
-  - extended base theme with custom font
-  - on the fly class generation using square bracket notation
-  - assets processed to increase performance, eg. reduced image size
+  - Pixel perfect replication of the original design with some minor fixes.
+  - Base theme extended with a custom font.
+  - In some cases, on the fly class generation using square bracket notation.
+  - Assets processed to increase performance, eg. reduced image size.
 
 - Business logic separated from the UI with minimum boilerplate code and easily scalable:
-  - The `BaseOffer` defines a common data interface + specialized interfaces for each offer type, eg. `BulkOffer` and `BuyXGetYOffer`
-  - The function `getDiscount` contains the logic and it is easily extensible by adding more cases to the switch statement
-  - Products and offers are stored in a mock database, this detaches the UI from the data, adding new product/offers is as simple as modifying the database, there is no need to rebuild the site
-  - Money is modeled as cents of Euro, therefore integers, and formatted using native `Intl` API
-  - Cart is modelled as a `writable` store and persisted using `localStorage`
+  - The `BaseOffer` defines a common data interface + specialized interfaces for each offer type, eg. `BulkOffer` and `BuyXGetYOffer`.
+  - The function `getDiscount` contains the logic and it is easily extensible by adding more cases to the switch statement.
+  - Products and offers are stored in a mock database, this detaches the UI from the data, adding new product/offers is as simple as modifying the database, there is no need to rebuild the site.
+  - Money is modeled as cents of Euro, therefore integers, and formatted using the ECMAScript Internationalization API, eg. `Intl`
+  - Cart is modelled as a `writable` store and persisted using `localStorage`.
+  - The checkout action is performed server side, the cart is send using `formData` and the server verifies the integrity and applicable offers sending back the actual total after discounts.
 
-- Thoroughly tested:
+- Tested with Vitest (unit) and Playwright (e2e):
   - Each requirement has a corresponding e2e Playwright test
   - Test fixtures and POM (Page Object Model) makes it easy to create new tests
-  - Core logic unit tested with Vitest
+  - Core logic (offers and checkout) unit tested with Vitest
 
 - Sparse comments whenever something is not straightforward, including sources/ref when possible
 
@@ -55,6 +56,26 @@ What could be improved:
 - Pagination of products/offers, as current design will not scale
 - Improve overall styles, eg. animations and effects dark mode, color themes, responsive...
 - Limited error handling, focused on happy path, logging and/or tracing could also be improved
+
+## Instructions
+
+Go to [basic-ecommerce-samu.vercel.app](https://basic-ecommerce-samu.vercel.app/)
+
+Alternatively, clone the repo and install dependencies with `npm i`
+
+- **Develop**
+
+    Launch a dev server with `npm run dev -- --open`
+
+    Run checks with `npm run check` or in watch mode with `npm run check:watch`. Find problems by running the linter with `npm run lint` and format the code with `npm run format`
+
+- **Test**
+
+    Launch unit tests with `npm run test` or e2e with `npm run test:pw` or with the UI `npm run test:pw -- --ui`
+
+- **Deploy**
+
+    Manually build with `npm run build` or preview with `npm run preview`
 
 ---
 

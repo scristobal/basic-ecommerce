@@ -2,6 +2,8 @@
 
 This repo consist on the code for the Frontend Challenge described below.
 
+> Live: [basic-ecommerce-samu.vercel.app](https://basic-ecommerce-samu.vercel.app/)
+
 What was done:
 
 - No dependencies, 100% type safe, including some exotic types like discriminated unions.
@@ -10,9 +12,9 @@ What was done:
   - file based routing, each product page is SSR based on a slug
   - shared layout between the products/cart and each product page
   - each page have a minimal number of components
-  - components contain no logic, limited to render props and trigger actions
-  - use of server load functions to load the latest products and offers from the database
-  - the checkout is computed securely on the server using form actions, displays a loading hint and small animation
+  - components contain minimal to no logic at all
+  - use of server load functions to load the product list
+  - the checkout is computed securely on the server using form actions
 
 - Styled with Tailwind CSS
   - pixel perfect with the original design with some minor fixes
@@ -23,30 +25,32 @@ What was done:
 - Business logic separated from the UI with minimum boilerplate code and easily scalable:
   - The `BaseOffer` defines a common data interface + specialized interfaces for each offer type, eg. `BulkOffer` and `BuyXGetYOffer`
   - The function `getDiscount` contains the logic and it is easily extensible by adding more cases to the switch statement
-  - Products, offers are stored in a mock database, this detaches the UI from the data, adding new product/offers is as simple as modifying the database
-  - Money is modeled as cents of Euro, therefore integers, and formatted using `Intl`
-  - Cart is modelled as a `writable` store and persisted on the user agent using `localStorage`
+  - Products and offers are stored in a mock database, this detaches the UI from the data, adding new product/offers is as simple as modifying the database, there is no need to rebuild the site
+  - Money is modeled as cents of Euro, therefore integers, and formatted using native `Intl` API
+  - Cart is modelled as a `writable` store and persisted using `localStorage`
 
 - Thoroughly tested:
   - Each requirement has a corresponding e2e Playwright test
   - Test fixtures and POM (Page Object Model) makes it easy to create new tests
   - Core logic unit tested with Vitest
 
-- Code documented and commented whenever something is not straightforward, including sources/ref when possible
+- Sparse comments whenever something is not straightforward, including sources/ref when possible
 
 - Additional features
-  - Offer show the number of items necessary to get a discount
+  - Show the number of items necessary to get a discount
   - The product page shows available offers
   - Products can have multiple offers
-  - Cart is handled client side but final checkout is server side
+  - Cart is handled client side but checkout is done on the server side
 
-- Deployed automatically using Vercel
+- Deployed automatically using Vercel, Lighthouse scores:
+![Performance report](/docs/lh_report.png)
+the low accessibility score is mainly due to low contrast color choices, fixing it would require to change the page design.
 
 What could be improved:
 
-- There is never enough tests, eg. component tests
+- There is never enough tests, eg. component tests, more e2e, etc.
 - Although the commit messages are clear, they do not follow conventional commit standard
-- Accessibility is limited, most html is semantic, but it could be improved and should be tested
+- Accessibility could be improved, main problem is color contrast
 - Internalization, only Euros and English language is supported
 - Pagination of products/offers, as current design will not scale
 - Improve overall styles, eg. animations and effects dark mode, color themes, responsive...

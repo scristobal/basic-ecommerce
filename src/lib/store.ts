@@ -13,7 +13,7 @@ export function createCart() {
     } else cart = writable({} as Cart);
 
     return {
-        subscribe: cart.subscribe,
+        ...cart,
         addItemByCode(code: string) {
             cart.update((cart) => {
                 if (cart[code]) cart[code]++;

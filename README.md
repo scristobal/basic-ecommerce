@@ -75,7 +75,7 @@ Clone the repo and install dependencies with `npm i`
 
 - **Test**
 
-    Launch unit tests with `npm run test` or e2e with `npm run test:pw` or with the UI `npm run test:pw -- --ui`
+    Launch unit tests with `npm run test:unit` or integration with `npm run test:integration` or with the UI `npm run test:integration -- --ui`
 
 - **Deploy**
 

@@ -54,15 +54,12 @@
                 <button
                     class="justify-center text-xl font-normal leading-normal text-violet-500 hover:text-violet-700 group-hover:drop-shadow"
                     disabled={quantity === 0}
-                    on:click={() => ($cart[product.code] = Math.max(0, quantity - 1))}
+                    on:click={() => cart.removeItemByCode(product.code)}
                 >
                     -
                 </button>
                 <input class=" col-span-1 mx-2 aspect-square h-8 w-8 rounded border text-center" bind:value={quantity} disabled />
-                <button
-                    class="text-xl font-normal leading-normal text-violet-500 hover:text-violet-700 group-hover:drop-shadow"
-                    on:click={() => ($cart[product.code] = quantity + 1)}
-                >
+                <button class="text-xl font-normal leading-normal text-violet-500 hover:text-violet-700 group-hover:drop-shadow" on:click={() => cart.addItemByCode(product.code)}>
                     +
                 </button>
             </form>

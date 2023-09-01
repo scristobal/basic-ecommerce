@@ -63,7 +63,7 @@
                 type="button"
                 class="h-11 w-full rounded bg-violet-500 text-white"
                 on:click={() => {
-                    $cart[product.code] = Math.max(0, quantity + 1);
+                    cart.addItemByCode(product.code);
                     goto('/');
                 }}
             >
